@@ -14,6 +14,7 @@ import Bookings from "./screens/admin/booking/bookings"
 import addBooking from "./screens/admin/booking/addBooking"
 import editBooking from "./screens/admin/booking/editBooking"
 
+
 export default {
     mode:'history',
     routes: [

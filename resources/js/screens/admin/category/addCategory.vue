@@ -3,12 +3,12 @@
         <v-form ref="form">
             <v-text-field
                 :counter="35"
-                label="Name"
+                label="Назва"
                 v-model="name"
             ></v-text-field>
 
             <v-text-field
-                label="Order"
+                label="Кількість"
                 required
                 v-model="order"
             ></v-text-field>
@@ -19,11 +19,11 @@
                     class="white--text mt-4 ml-2"
                     style="font-size:30px;margin-right:-20px"
                 />
-                <v-file-input label="Image" show-size v-model="image"></v-file-input>
+                <v-file-input label="Світлина" show-size v-model="image"></v-file-input>
             </v-row>
 
             <v-btn color="success" v-on:click="submitForm()" class="mr-4">
-                Submit
+                Створити категорію
             </v-btn>
         </v-form>
     </v-container>

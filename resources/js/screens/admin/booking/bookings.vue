@@ -1,13 +1,5 @@
 <template>
     <div>
-<!--        <div class="centered-container">-->
-<!--            <v-text-field-->
-<!--                class="ml-5 mr-5"-->
-<!--                v-model="searchQuery"-->
-<!--                placeholder="Поиск по имени клиента"-->
-<!--            />-->
-<!--            <v-btn small class="ml-1" @click="performSearch">Искать</v-btn>-->
-<!--        </div>-->
 
     <v-simple-table>
         <template v-slot:default>
@@ -56,34 +48,34 @@
                     Статус
                 </th>
                 <th class="text-center">
-                    Edit
+                    Редагування
                 </th>
                 <th class="text-center">
 
-                    Delete
+                    Видалення
                 </th>
             </tr>
             </thead>
             <tbody>
 
-            <tr v-for="booking in bookings" :key="booking.id">
-                <td class="text-center">{{ booking.product.category.name }}</td>
-                <td class="text-center">{{ booking.product.name}}</td>
-                <td class="text-center">{{ booking.booking_date }}</td>
-                <td class="text-center">    {{ booking.client_name }}<br>
-                    {{ booking.client_phone }}<br>
-                    {{ booking.client_email }}</td>
-                <td class="text-center">{{ booking.arrival_time}}</td>
-<!--                <td class="text-center">{{ booking.special_request}}</td>-->
-                <td class="text-center"><textarea readonly>{{ booking.special_requests }}</textarea></td>
-                <td class="text-center">
-<!--                    <v-select-->
-<!--                        :items="statuses"-->
-<!--                        label="Статус"-->
-<!--                        v-model="selectedStatus"-->
-<!--                        @change="updateStatus"-->
-<!--                    ></v-select>-->
-                </td>
+                <tr v-for="booking in bookings" :key="booking.id">
+                    <td class="text-center">{{ booking.product.category.name }}</td>
+                    <td class="text-center">{{ booking.product.name}}</td>
+                    <td class="text-center">{{ booking.booking_date }}</td>
+                    <td class="text-center">    {{ booking.client_name }}<br>
+                        {{ booking.client_phone }}<br>
+                        {{ booking.client_email }}</td>
+                    <td class="text-center">{{ booking.arrival_time}}</td>
+
+    <!--                <td class="text-center">{{ booking.special_request}}</td>-->
+                    <td class="text-center"><textarea readonly>{{ booking.special_requests }}</textarea></td>
+                    <td class="text-center">
+                        <v-select
+                            v-model="booking.status"
+                            :items="statuses"
+                            @change="updateStatus(booking)"
+                        ></v-select>
+                    </td>
                 <td class="text-center"><v-btn
                     class="mx-2"
                     fab
@@ -106,30 +98,6 @@
                 >
                     <font-awesome-icon icon="trash" />
                 </v-btn></td>
-<!--                <td class="text-center">-->
-<!--                    <v-btn-->
-<!--                        class="mx-2"-->
-<!--                        fab-->
-<!--                        dark-->
-<!--                        large-->
-<!--                        color="cyan"-->
-<!--                        v-on:click="() => $router.push({name: 'editCategory', params: {category}})"-->
-<!--                    >-->
-<!--                        <font-awesome-icon icon="pen" />-->
-<!--                    </v-btn>-->
-<!--                </td>-->
-<!--                <td class="text-center">-->
-<!--                    <v-btn-->
-<!--                        class="mx-2"-->
-<!--                        fab-->
-<!--                        dark-->
-<!--                        large-->
-<!--                        color="red"-->
-<!--                        v-on:click="deleteCategory(category.id)"-->
-<!--                    >-->
-<!--                        <font-awesome-icon icon="trash" />-->
-<!--                    </v-btn>-->
-<!--                </td>-->
             </tr>
             </tbody>
         </template>
@@ -144,7 +112,7 @@ export default {
             bookings: [],
             sortBy: 'booking_date', // Имя столбца, по которому нужно сортировать
             sortDesc: false,
-            //searchQuery: ''
+            statuses: ['очікує оплату', 'Заброньовано', 'Відмінено']
         }
     },
     methods:{
@@ -190,24 +158,24 @@ export default {
                     this.getBookings();
                 }
             });
+        },
+        updateStatus(booking) {
+            axios.post('api/update/booking-status', {
+                bookingId: booking.id,
+                newStatus: booking.status
+            })
+                .then(response => {
+                    console.log('Status Update Response:', response);
+                    if (response.status >= 200 && response.status < 300){
+                        alert('Статус успішно змінений');
+                    }
+                })
+                .catch(error => {
+                    console.error('Status Update Error:', error);
+                    alert('Не вдалося оновити статус');
+                    // Здесь вам следует также добавить некоторую логику для отката статуса на фронтенде обратно на оригинальный, если обновление не удалось
+                });
         }
-        // performSearch() {
-        //     axios.get('api/bookings/search', {
-        //         params: {
-        //             query: this.searchQuery,
-        //         },
-        //     })
-        //         .then(response => {
-        //             console.log('API Response:', response);
-        //             if (response.status >= 200 && response.status < 300) {
-        //                 this.bookings = response.data.bookings || [];
-        //                 console.log('Bookings Data:', this.bookings);
-        //             }
-        //         })
-        //         .catch(error => {
-        //             console.error('API Error:', error);
-        //         });
-        // },
     },
     mounted() {
         this.getBookings();

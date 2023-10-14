@@ -22,11 +22,6 @@
                 required
             ></v-text-field>
 
-<!--            <v-text-field-->
-<!--                v-model="bookedDatesString"-->
-<!--                label="Дати бронювання"-->
-<!--                readonly-->
-<!--            ></v-text-field>-->
 
             <v-select
                 v-model="bookingForm.arrivalTime"
@@ -71,7 +66,7 @@
 <!--            ></v-select>-->
 
             <v-btn color="success" v-on:click="confirmBooking()" class="mr-4">
-                Submit
+                Створити бронювання
             </v-btn>
         </v-form>
     </v-container>
@@ -121,7 +116,7 @@ export default {
         },
         fetchBookings() {
             axios.get(`api/bookings/${this.product.id}`).then(response => {
-                console.log("Забронированные даты:", response.data);
+                console.log("Заброньовані дати:", response.data);
                 this.bookedDates = [];
                 response.data.forEach(booking => {
                     this.bookedDates.push(booking.booking_date);
@@ -160,19 +155,13 @@ export default {
                 .then(response => {
                     if(response.status === 200) {
                         this.fetchBookings(); // обновите список забронированных дат
-                        alert('Успешное бронирование!');
+                        alert('Успішне бронювання!');
                     }
                 })
                 .catch(error => {
-                    alert('Ошибка при бронировании. Возможно, эти даты уже забронированы.');
+                    alert('Помилка бронювання. Можлива дата вже заброньована');
                 });
-            // axios.post('api/book', bookingData)
-            //     .then(response => {
-            //         console.log('Response:', response.data);
-            //     })
-            //     .catch(error => {
-            //         console.error('Error:', error.response.data);
-            //     });
+
         },
         onProductChange() {
             // Вызываем метод для загрузки забронированных дат для выбранного "Будиночка"

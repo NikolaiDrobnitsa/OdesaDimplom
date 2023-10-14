@@ -5,25 +5,25 @@
             <thead>
             <tr >
                 <th class="text-center">
-                    Image
+                    Світлина
                 </th>
                 <th class="text-center">
-                    Name
+                    Назва
                 </th>
                 <th class="text-center">
-                    Category Name
+                    Категорія
                 </th>
                 <th class="text-center">
-                    Price
+                    Ціня
                 </th>
                 <th class="text-center">
-                    Edit
+                    Редагування
                 </th>
                 <th class="text-center">
-                    Delete
+                    Видалення
                 </th>
                 <th class="text-center">
-                    Show Images
+                    Показати всі світлини
                 </th>
             </tr>
             </thead>
@@ -88,7 +88,7 @@
         <v-dialog v-model="imageDialog" max-width="800px">
             <v-card v-if="activeProduct" class="dialog-content">
                 <v-card-title>
-                    Images for {{ activeProduct.name }}
+                    Світлини: {{ activeProduct.name }}
                     <v-spacer></v-spacer>
                     <v-btn icon @click="imageDialog = false">
                         <font-awesome-icon :icon="['fas', 'times']" />

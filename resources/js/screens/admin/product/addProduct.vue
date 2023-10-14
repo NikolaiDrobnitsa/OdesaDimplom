@@ -3,17 +3,17 @@
         <v-form ref="form">
             <v-text-field
                 :counter="35"
-                label="Name"
+                label="Назва"
                 v-model="name"
             ></v-text-field>
             <v-textarea
-                name="Description"
-                label="Enter Description..."
+                name="Опис"
+                label="Введіть опис..."
                 v-model="description"
             ></v-textarea>
 
             <v-text-field
-                label="Price"
+                label="Ціна"
                 required
                 v-model="price"
             ></v-text-field>
@@ -22,7 +22,7 @@
                 return-object
                 :items="categories"
                 item-text="name"
-                label="Category"
+                label="Категорія"
                 dense
                 outlined
             ></v-select>
@@ -38,7 +38,7 @@
             </v-row>
 
             <v-btn color="success" v-on:click="submitForm()" class="mr-4">
-                Submit
+                Створити
             </v-btn>
         </v-form>
     </v-container>

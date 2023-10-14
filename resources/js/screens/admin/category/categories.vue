@@ -4,20 +4,20 @@
             <thead>
             <tr >
                 <th class="text-center">
-                    Image
+                    Свілина
                 </th>
                 <th class="text-center">
-                    Name
+                    Назва категорії
                 </th>
                 <th class="text-center">
-                    Order
+                    Кількість
                 </th>
                 <th class="text-center">
-                    Edit
+                    Редагування
                 </th>
                 <th class="text-center">
 
-                    Delete
+                    Видалення
                 </th>
             </tr>
             </thead>

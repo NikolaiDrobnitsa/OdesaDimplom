@@ -118,18 +118,28 @@ class BookingController extends Controller
 
         return response()->json(['message' => 'Бронювання успішно оновилося']);
     }
-//    public function search(Request $request)
-//    {
-//        // Получите поисковый запрос из клиента
-//        $query = $request->input('query');
-//
-//        // Выполните поиск на сервере, используя $query для фильтрации данных
-//        $bookings = Booking::where('client_name', 'LIKE', "%$query%")
-//            ->with('product', 'product.category')
-//            ->get();
-//
-//        return response()->json(['bookings' => $bookings]);
-//    }
+    public function updateStatus(Request $request)
+    {
+        // Валидация запроса
+        $request->validate([
+            'bookingId' => 'required|integer|exists:bookings,id',
+            'newStatus' => 'required|string|max:255',
+        ]);
+
+        // Получите бронирование по ID
+        $booking = Booking::find($request->input('bookingId'));
+
+        if (!$booking) {
+            return response()->json(['message' => 'Booking not found!'], 404);
+        }
+
+        // Обновите статус бронирования
+        $booking->status = $request->input('newStatus');
+        $booking->save();
+
+        // Отправьте ответ
+        return response()->json(['message' => 'Status updated successfully!']);
+    }
     public function destroy(string $id)
     {
         $product = Booking::findOrFail($id);

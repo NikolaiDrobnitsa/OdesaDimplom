@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-12">
                     <v-card outlined>
-                        <v-card-title>categories</v-card-title>
+                        <v-card-title>Категорії</v-card-title>
                         <v-divider></v-divider>
                         <template>
                             <v-btn
@@ -20,7 +20,7 @@
                         </template>
                     </v-card>
                 </div>
-                <div class="col-md-9 col-sm-9 col-xs-12">
+                <div class="col-md-01 col-sm-9 col-xs-12">
                     <v-divider></v-divider>
                     <div class="row text-center">
                         <div

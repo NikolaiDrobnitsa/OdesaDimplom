@@ -46,6 +46,7 @@ Route::post('book', [BookingController::class, 'store']);
 Route::post('add/booking', [BookingController::class, 'store']);
 Route::post('update/booking/{id}', [BookingController::class, 'update']);
 Route::get('delete/booking/{id}', [BookingController::class, 'destroy']);
+Route::post('update/booking-status', [BookingController::class, 'updateStatus']);
 //Route::get('bookings/search', [BookingController::class, 'search']);
 //Route::get('bookings/search', [BookingController::class, 'search']);
 

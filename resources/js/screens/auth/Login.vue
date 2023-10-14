@@ -1,11 +1,11 @@
 <template>
-    <div class="pa-0" style="max-height:100vh;overflow:hidden;background-color:white;height:100vh">
-     <v-img src="/assets/tesla-specs.jpeg" height="350px" width="100vw"></v-img>
+    <div class="pa-0" style="max-height:500vh;overflow:hidden;background-color:white;height:500vh">
+     <v-img src="/assets/shop_banner/login_banner.jpg" height="600px" width="100vw"></v-img>
         <v-card class="mx-auto elevation-5 text-center pa-5"
                 max-width="350"
-                style="border-radius:20px;position:relative;top:-100px">
+                style="border-radius:20px;position:relative;top:-441px">
             <v-card-subtitle class="title black--text pa-1">
-                Login Now
+                Вхід
             </v-card-subtitle>
             <v-card-subtitle class="pa-1">
 
@@ -18,7 +18,7 @@
             </v-text-field>
             <v-card-actions>
                 <v-btn color="black" dark block rounded v-on:click="handleLogin()">
-                    Login
+                    Ввійти
                 </v-btn>
             </v-card-actions>
         </v-card>

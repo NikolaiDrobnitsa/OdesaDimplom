@@ -9,22 +9,22 @@
 
                 <v-spacer></v-spacer>
                 <v-btn  @click="() => this.$router.push('addCategory')" class="mr-2">
-                    Add Category
+                    Створити категорію
                 </v-btn>
                 <v-btn @click="() => this.$router.push('categories')">
-                     Categories
+                     Категорії
                 </v-btn>
                 <v-btn @click="() => this.$router.push('products')" class="ml-2">
-                    Products
+                    Будиночки
                 </v-btn>
                 <v-btn @click="() => this.$router.push('addProduct')" class="ml-2">
-                    AddProduct
+                    Створити будиночок
                 </v-btn>
                 <v-btn @click="() => this.$router.push('bookings')" class="ml-2">
-                    Booking
+                    Бронювання
                 </v-btn>
                 <v-btn @click="() => this.$router.push('addBooking')" class="ml-2">
-                    addBooking
+                    Створити бронювання
                 </v-btn>
                 <v-btn class="mx-2" fab dark medium color="red" v-on:click="logout()">
                     <font-awesome-icon icon="sign-out-alt" style="font-size:25px"></font-awesome-icon>

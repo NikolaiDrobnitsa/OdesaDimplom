@@ -50,7 +50,6 @@
             <v-date-picker
                 locale="uk"
                 v-model="selectedDates"
-                :value="selectedDates"
                 :events="bookedDates"
                 event-color="grey"
                 :allowed-dates="isDateAvailable"
@@ -143,12 +142,10 @@ export default {
             return selectedDate >= today && !this.bookedDates.includes(date);
         },
         confirmBooking(bookingId) {
-
             // Форматирование данных для отправки
-
             const bookingData = {
                 product_id: this.product.id,
-                booking_dates: this.selectedDates,
+                booking_dates: this.finalBookingDates,
                 client_name: this.clientName,
                 client_phone: this.clientPhone,
                 client_email: this.clientEmail,
@@ -166,24 +163,6 @@ export default {
                     console.error('Error:', error.response.data);
                     alert('Ошибка при обновлении бронирования.');
                 });
-            // Отправка данных на сервер для бронирования
-            // axios.post('api/book', bookingData)
-            //     .then(response => {
-            //         if(response.status === 200) {
-            //             this.fetchBookings(); // обновите список забронированных дат
-            //             alert('Успешное бронирование!');
-            //         }
-            //     })
-            //     .catch(error => {
-            //         alert('Ошибка при бронировании. Возможно, эти даты уже забронированы.');
-            //     });
-            // axios.post('api/book', bookingData)
-            //     .then(response => {
-            //         console.log('Response:', response.data);
-            //     })
-            //     .catch(error => {
-            //         console.error('Error:', error.response.data);
-            //     });
         },
         formatArrivalTime(time) {
             if (!time) return '';
@@ -211,11 +190,14 @@ export default {
         this.getProducts();
         this.fetchBookings();
 
-        //const bookingId = /* Получите ID бронирования для редактирования, возможно, из маршрута или другого источника данных */;
-        // if (this.$route.params.booking) {
-        //     this.loadBookingForEdit(this.$route.params.booking);
-        // }
-    }
+
+    },
+    computed: {
+        finalBookingDates() {
+            return this.selectedDates.length ? this.selectedDates : this.initialBookedDates.split(', ');
+        }
+    },
+
 
 
 }

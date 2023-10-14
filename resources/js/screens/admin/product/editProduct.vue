@@ -3,19 +3,19 @@
         <v-form ref="form">
             <v-text-field
                 :counter="35"
-                label="Name"
+                label="Назва"
                 v-model="name"
                 :value="name"
             ></v-text-field>
             <v-textarea
-                name="Description"
-                label="Enter Description..."
+                name="Опис"
+                label="Введіть опис..."
                 v-model="description"
                 :value="description"
             ></v-textarea>
 
             <v-text-field
-                label="Price"
+                label="Ціна"
                 required
                 v-model="price"
                 :value="price"
@@ -32,7 +32,7 @@
 
 
             <v-btn color="success" v-on:click="submitForm()" class="mr-4">
-                Submit
+                Редагувати
             </v-btn>
         </v-form>
     </v-container>
