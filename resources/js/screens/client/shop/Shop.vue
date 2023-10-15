@@ -75,7 +75,7 @@
                             <div class="col-md-3 col-sm-4 col-xs-12 text-center" v-for="product in products" :key="product.id">
                                 <v-hover v-slot:default="{hover}" open-delay="240">
                                     <v-card :elevation="hover ? 16 : 2">
-                                        <v-img v-if="product.images && product.images.length > 0" :src="'/products/'+product.images[0].image" height="200px" class="white--text align-end">
+                                        <v-img gradient="to bottom, rgb(0,0,0,.1), rgb(0,0,0,.3)" v-if="product.images && product.images.length > 0" :src="'/products/'+product.images[0].image" height="200px" class="white--text align-end ">
                                         <v-card-title>{{ product.name }}</v-card-title>
                                         </v-img>
                                         <v-card-text class="text-primary text-center">
@@ -83,7 +83,7 @@
                                             <div>{{ product.category.name}}</div>
                                         </v-card-text>
                                         <div class="text-center" >
-                                            <v-btn class="ma-2" @click="() => $router.push({name: 'ProductDetails', query: {productId: product.id}})">
+                                            <v-btn class="ma-2" outlined @click="() => $router.push({name: 'ProductDetails', query: {productId: product.id}})">
                                                 Детальніше
                                             </v-btn>
                                         </div>

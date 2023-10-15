@@ -6,10 +6,6 @@
                     <transition name="fade" mode="out-in">
                     <v-img v-if="product?.image" style="height: 500px; position: relative;" :src="'/products/' + product.image" :key="product.image">
 
-<!--                        <v-btn @click="nextImage" icon class="chevron-button">-->
-<!--                            <font-awesome-icon icon="circle-chevron-right" style="font-size:25px" />-->
-
-<!--                        </v-btn>-->
                         <v-btn class="chevron-button-right" fab dark x-small color="white"  v-on:click="nextImage()">
                             <font-awesome-icon :icon="['fas', 'chevron-right']" style="color: black"/>
                         </v-btn>
@@ -61,10 +57,16 @@
                             multiple
 
                         ></v-date-picker>
-                        <v-btn @click="bookProduct">Забронировать</v-btn>
+                        <v-container>
+                            <v-btn style="margin-left: 50px" outlined color="dark" @click="bookProduct">Забронювати</v-btn>
+                        </v-container>
+
                         <v-dialog v-model="dialog" max-width="600px">
                             <v-card>
-                                <v-card-title>
+                                <v-card-title style="color: grey;">
+                                     <span style="color: black;" class="headline">  Крок 1   </span>   -   Крок 2
+                                </v-card-title>
+                                <v-card-title class="ma-0 pa-0 pl-5">
                                     <span class="headline">Бронювання: {{ product.name}}</span>
                                 </v-card-title>
                                 <v-card-text>
@@ -78,18 +80,17 @@
 
                                         <v-text-field
                                             v-model="bookingForm.clientPhone"
-                                            :rules="[v => !!v || 'Телефон обов\'язково']"
+                                            :rules="[v => !!v || 'Телефон обов\'язково', phoneRule]"
                                             label="Телефон"
                                             required
                                         ></v-text-field>
 
                                         <v-text-field
                                             v-model="bookingForm.clientEmail"
-                                            :rules="[v => !!v || 'E-mail обов\'язково']"
+                                            :rules="[v => !!v || 'E-mail обов\'язково', emailRule]"
                                             label="E-mail"
                                             required
                                         ></v-text-field>
-
                                         <v-text-field
                                             v-model="bookedDatesString"
                                             label="Дати бронювання"
@@ -109,16 +110,67 @@
                                             label="Особливі побажання"
                                             hint="Адміністрація об'єкта розміщення не може гарантувати виконання особливих побажань, але зробить для цього все можливе. Ви завжди можете залишити особливе бажання після завершення бронювання!"
                                             persistent-hint
+                                            rows="3"
                                         ></v-textarea>
                                     </v-form>
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn color="blue darken-1" text @click="dialog = false">Відміна</v-btn>
-                                    <v-btn color="blue darken-1" text @click="confirmBooking">Підтвердити</v-btn>
+                                    <v-btn color="red darken-1" text @click="dialog = false">Відміна</v-btn>
+
+                                    <v-btn outlined color="grey darken-1" @click="goToPrepayment">Наступний крок ></v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
+                        <v-dialog v-model="prepaymentDialog" max-width="650px">
+                            <v-card>
+                                <v-card-title style="color: grey;">
+                                    Крок 1<span style="color: black;" class="headline"> -   Крок 2    </span>
+                                </v-card-title>
+                                <v-card-title class="ma-0 pa-0 pl-5">
+                                    <span class="headline">Предоплата</span>
+                                </v-card-title>
+
+                                <v-card-text>
+                                    <span style="font-size: 18px;" class="pa-2">Способи оплати:</span>
+                                    <v-row>
+                                        <v-col cols="6" style="margin-left: 30px;">
+                                            <v-img  src="/assets/card_visa.png" style="" height="180" width="289" >
+
+                                                <v-row class="fill-height" align="center" justify="center">
+                                                    <v-col class="text-overlay" cols="10" offset-md="1">
+                                                        1234 5678 9012 3456
+                                                    </v-col>
+                                                </v-row>
+                                            </v-img>
+                                        </v-col>
+                                        <v-col cols="5">
+                                            <v-img src="/assets/qr_code_2.png"  height="227" width="205"></v-img>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col cols="12" class="text-center">
+                                            <div style="font-size: 16px; color: black;" v-html="bookingText">
+
+                                                {{ bookingText }}
+                                            </div>
+                                            <div>
+                                                Щоб підтвердити бронювання за правилами нашого комплексу, потрібно сплатити передоплату по 200 грн за один заброньований день.
+                                            </div>
+                                            <div>
+                                                Після оплати вам прийде на пошту підтвердження оплати, якщо ви не сплатите протягом 24 годин ваша бронь відміняється!
+                                            </div>
+                                        </v-col>
+                                    </v-row>
+                                    <!-- Ваша остальная верстка для диалогового окна предоплаты -->
+                                </v-card-text>
+                                <v-card-actions class="justify-space-between">
+                                    <v-btn outlined color="grey darken-1" @click="goBackToBooking">< попередній крок</v-btn>
+                                    <v-btn outlined color="green darken-1" text @click="confirmBooking">Підтвердити бронювання</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+
                     </div>
                 </div>
             </div>
@@ -184,6 +236,7 @@ export default {
     data: function () {
         return{
             dialog: false,
+            prepaymentDialog: false,
             valid: true,
             bookingForm: {
                 clientName: '', // имя клиента
@@ -227,6 +280,7 @@ export default {
             currentImageIndex: 0,
             selectedDates: [], // даты, выбранные пользователем
             bookedDates: [],  // забронированные даты
+            pricePerDay: 200
 
 
 
@@ -326,28 +380,31 @@ export default {
         confirmBooking() {
 
             // Форматирование данных для отправки
-            const bookingData = {
-                product_id: this.product.id,
-                booking_dates: this.selectedDates,
-                client_name: this.bookingForm.clientName,
-                client_phone: this.bookingForm.clientPhone,
-                client_email: this.bookingForm.clientEmail,
-                arrival_time: this.bookingForm.arrivalTime,
-                special_requests: this.bookingForm.specialRequests,
-                // ...this.bookingForm,
-            };
-            console.log(bookingData);
-            // Отправка данных на сервер для бронирования
-            axios.post('api/book', bookingData)
-                .then(response => {
-                    if(response.status === 200) {
-                        this.fetchBookings(); // обновите список забронированных дат
-                        alert('Успешное бронирование!');
-                    }
-                })
-                .catch(error => {
-                    alert('Ошибка при бронировании. Возможно, эти даты уже забронированы.');
-                });
+
+                const bookingData = {
+                    product_id: this.product.id,
+                    booking_dates: this.selectedDates,
+                    client_name: this.bookingForm.clientName,
+                    client_phone: this.bookingForm.clientPhone,
+                    client_email: this.bookingForm.clientEmail,
+                    arrival_time: this.bookingForm.arrivalTime,
+                    special_requests: this.bookingForm.specialRequests,
+                    // ...this.bookingForm,
+                };
+                console.log(bookingData);
+                // Отправка данных на сервер для бронирования
+                axios.post('api/book', bookingData)
+                    .then(response => {
+                        if (response.status === 200) {
+                            this.fetchBookings(); // обновите список забронированных дат
+                            alert('Успешное бронирование!');
+                            this.prepaymentDialog = false;
+                        }
+                    })
+                    .catch(error => {
+                        alert('Ошибка при бронировании. Возможно, эти даты уже забронированы.');
+                    });
+
             // axios.post('api/book', bookingData)
             //     .then(response => {
             //         console.log('Response:', response.data);
@@ -355,11 +412,28 @@ export default {
             //     .catch(error => {
             //         console.error('Error:', error.response.data);
             //     });
+
         },
         toggleText() {
             this.isTextExpanded = !this.isTextExpanded;
-        }
+        },
+        goToPrepayment() {
+            if (this.$refs.form.validate()) {
+                this.dialog = false;
+                this.prepaymentDialog = true;
 
+            }
+        },
+        goBackToBooking() {
+            this.dialog = true;
+            this.prepaymentDialog = false;
+        },
+        emailRule(v) {
+            return /.+@.+\..+/.test(v) || 'Введите корректный e-mail (example@gmail.com)';
+        },
+        phoneRule(v) {
+            return /^(\+380|0)[3-9][0-9]\d{7}$/.test(v) || 'Введите корректный номер телефона(0631231231)';
+        }
 
     },
     mounted() {
@@ -401,7 +475,17 @@ export default {
             return this.product.description
                 ? this.product.description.split('⁃').map((line, index) => (index > 0 ? '⁃ ' : '') + line.trim())
                 : [];
-        }
+        },
+        bookingText() {
+            if (this.selectedDates.length === 1) {
+                return `Ви бажаєте забронювати <strong>${this.selectedDates.length}</strong> дату: для цього вам потрібно заплатити передоплату у розмірі <strong>${ this.selectedDates.length * this.pricePerDay }</strong> грн.`;
+            } else {
+                return `Ви бажаєте забронювати <strong>${this.selectedDates.length}</strong> дати: для цього вам потрібно заплатити передоплату у розмірі <strong>${ this.selectedDates.length * this.pricePerDay }</strong> грн.`;
+            }
+        },
+
+
+
     },
 
 
@@ -462,6 +546,17 @@ export default {
     justify-content: center;  /* Выравнивание содержимого по горизонтали */
     align-items: center;  /* Выравнивание содержимого по вертикали */
     text-align: center;  /* Выравнивание текста по центру */
+}
+.image-card {
+    position: relative;
+}
+
+.text-overlay {
+    position: absolute;
+    bottom: 20%; /* Адаптируйте этот стиль, чтобы разместить текст там, где вы хотите на изображении */
+    color: white; /* или другой цвет, который хорошо читается на вашем изображении */
+    font-size: 1.5em; /* Адаптируйте размер шрифта по своему усмотрению */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Это добавит тень к тексту, чтобы сделать его более читаемым на фоне изображения */
 }
 
 </style>

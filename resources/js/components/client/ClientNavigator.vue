@@ -12,7 +12,9 @@
                 <div class="font-weight-medium black--text ml-2 text-h5">Одеса</div>
 
                 <v-spacer></v-spacer>
-                <v-btn class="hidden-sm-and-down white font-weight-bold black--text" @click="() => this.$router.push({name: 'Shop'})">Оренда й бронювання</v-btn>
+            <v-btn class="hidden-sm-and-down white font-weight-bold black--text" @click="() => this.$router.push({name: 'Shop'})">Бронювання будиночків</v-btn>
+            <v-btn class="hidden-md-and-up white font-weight-bold black--text" @click="() => this.$router.push({name: 'Shop'})">Бронювання</v-btn>
+<!--                <v-btn class="hidden-sm-and-down white font-weight-bold black&#45;&#45;text" @click="() => this.$router.push({name: 'Shop'})">Бронювання будиночків</v-btn>-->
             <!-- <v-btn class="hidden-sm-and-down white font-weight-bold black--text ml-3">Order now</v-btn> -->
                 <v-spacer></v-spacer>
         </v-toolbar>

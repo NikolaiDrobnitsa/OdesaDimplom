@@ -38,8 +38,8 @@
                                             </div>
                                         </v-expand-transition>
                                     </v-img>
-                                    <v-card-text class="text--primary" style="margin-bottom:-8px" >{{ product.name }}</v-card-text>
-                                    <v-card-text class="text--primary">
+                                    <v-card-text class="text--primary font-weight-bold" style="margin-bottom:-25px;" >{{ product.name }}</v-card-text>
+                                    <v-card-text class="text--primary" style="font-size: 17px;">
                                         <div>{{ product.price }}</div>
                                     </v-card-text>
                                 </v-card>
